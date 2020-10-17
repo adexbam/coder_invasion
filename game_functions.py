@@ -2,6 +2,19 @@ import sys
 
 import pygame
 
+def check_keydown_events(event, ship):
+    if event.key == pygame.K_RIGHT:
+        # Move the ship to the right
+        ship.moving_right = True
+    elif event.key == pygame.K_LEFT:
+        ship.moving_left = True
+
+def check_keyup_events(event, ship):
+    if event.key == pygame.K_RIGHT:
+        ship.moving_right = False
+    elif event.key == pygame.K_LEFT:
+        ship.moving_left = False
+
 def check_events(ship):
     """Respond to keypresses and mouse events."""
     for event in pygame.event.get():
@@ -9,32 +22,16 @@ def check_events(ship):
             sys.exit()
 
         elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_RIGHT:
-                # Move the ship to the right
-                ship.moving_right = True
-            elif event.key == pygame.K_LEFT:
-                ship.moving_left = True
+            check_keydown_events(event, ship)
 
         elif event.type == pygame.KEYUP:
-            if event.key == pygame.K_RIGHT:
-                ship.moving_right = False
-            elif event.key == pygame.K_LEFT:
-                ship.moving_left = False
+            check_keyup_events(event, ship)
 
 
 def update_screen(ai_settings, screen, ship):
         # Redraw the screen during each pass through the loop.
         screen.fill(ai_settings.bg_color)
         ship.blitme()
-
-        # make the most recently drawn screen visible.
-        pygame.display.flip()
-
-
-def update_bs_screen(bs_settings, bs_screen, bs_ship):
-        # Redraw the screen during each pass through the loop.
-        bs_screen.fill(bs_settings.bg_color)
-        bs_ship.blitme()
 
         # make the most recently drawn screen visible.
         pygame.display.flip()
